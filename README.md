@@ -1,2 +1,3 @@
-# AI-for-data-visualization-workshop
-Materials for our AI for data visualization workshop
+# AI for Data Visualization
+
+Harness the power of large language models to transform how you create data visualizations. In this hands-on workshop, you’ll learn how to rapidly prototype visualization for a variety of formats by prompting LLMs to generate figures directly from your data, and how to move from rough drafts to polished, reproducible, publication-ready graphics by having LLMs produce code you can run and refine. Along the way, we’ll cover practical strategies and best practices for getting reliable, high-quality results, empowering you to integrate LLMs into your visualization workflow with confidence and efficiency.
