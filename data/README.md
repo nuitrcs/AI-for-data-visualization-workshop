@@ -25,7 +25,7 @@ df = pd.read_csv("CPS_merged.csv")
 **2. Google Colab** — upload via the Files panel, or read straight from a URL:
 ```python
 import pandas as pd
-df = pd.read_csv("https://raw.githubusercontent.com/<user>/<repo>/main/data/CPS_merged.csv")
+df = pd.read_csv("https://raw.githubusercontent.com/nuitrcs/AI-for-data-visualization-workshop/refs/heads/main/data/CPS_merged.csv")
 ```
 
 **3. Let the LLM wire it up** — just tell it where the data lives:
@@ -34,15 +34,21 @@ df = pd.read_csv("https://raw.githubusercontent.com/<user>/<repo>/main/data/CPS_
 > **Tip:** use the **`raw.githubusercontent.com`** link (GitHub's **"Raw"** button), *not* the `github.com` page URL — the page URL returns HTML, not your data.
 
 
-## 1. `CPS_merged.csv` — scatter plot *(Rounds 1–3)*
+## 1. `CPS_merged.csv` — standard CSV file *(Parts 1–3)*
 
-**What it is:** Chicago Public Schools data — one row per school, with many attributes per school. A real, slightly messy CSV with **~650 rows** and **many columns**.
+**What it is:** Chicago Public Schools data — one row per school, with many attributes per school. A real, slightly messy CSV with **~650 rows** and **280 columns**.
 
-**The figure:** a scatter plot of **school mobility rate vs. college enrollment rate**, with a fitted trend line and a 1σ confidence band.
+**The desired figure:** a scatter plot of **school mobility rate vs. college enrollment rate**, with a fitted trend line and a 1σ confidence band.
 
-**Source:** built by joining two CPS datasets from the prompt-engineering workshop repo — <https://github.com/ageller/promptEngineering>
+**Source:** built by joining two CPS datasets from
+the [Chicago Data Portal](https://data.cityofchicago.org/).  
 
-**⚠️ Watch for:** several columns have very **similar names** (e.g., more than one "college enrollment" field). Tools tend to pick one **silently** — note which one yours chose, and check it against what you intended.
+- [`Chicago_Public_Schools_-_School_Progress_Reports_SY2324_20240924.csv`](https://data.cityofchicago.org/Education/Chicago-Public-Schools-School-Progress-Reports-SY2/2dn2-x66j/about_data).  
+
+- [`Chicago_Public_Schools_-_School_Profile_Information_SY2324_20240924.csv `](https://data.cityofchicago.org/Education/Chicago-Public-Schools-School-Profile-Information-/cu4u-b4d9/about_data)
+
+
+**⚠️ Watch for:** several columns have very **similar names** (e.g., more than one "college enrollment" field). Tools tend to pick one **silently** — note which one your LLM choses, and check it against what you intended.
 
 **Starter prompt (rough draft):**
 ```
@@ -64,11 +70,11 @@ Please recreate the figure with these changes and provide an updated PDF to down
 ```
 
 
-## 2. `financial_sample.xlsx` — multi-line trend plot
+## 2. `Financial Sample.xlsx` — Excel file
 
 **What it is:** a financial sample with products sold across several countries, segments, and discount bands over time.
 
-**The figure:** profit over time, compared across products and broken down by country, for a chosen segment and discount bands.
+**Suggested figure:** profit over time, compared across products and broken down by country, for a chosen segment and discount bands.
 
 **Source:** Microsoft Power BI "Financial Sample" workbook — <https://learn.microsoft.com/en-us/power-bi/create-reports/sample-financial-download>
 
@@ -84,18 +90,18 @@ that I can download and include in my research paper.
 ```
 
 
-## 3. `chinook.db` — bar chart from a database
+## 3. `chinook.db` — sqlite database
 
 **What it is:** the **Chinook** sample SQLite database — a fictional digital media store with **11 related tables** (customers, invoices, tracks, genres, etc.).
 
-**The figure:** a bar chart comparing the **percentage of tracks sold to US customers in each genre** — which requires the model to write SQL (or use pandas) to join and aggregate across tables first.
+**Suggested figure:** a bar chart comparing the **percentage of tracks sold to US customers in each genre** — which requires the model to write SQL (or use pandas) to join and aggregate across tables first.
 
 **Source:** <https://github.com/lerocha/chinook-database/releases>
-**Table reference:** <https://www.sqlitetutorial.net/sqlite-sample-database/> (note: some table names are slightly outdated)
+**Table reference:** <https://www.sqlitetutorial.net/sqlite-sample-database/> 
 
 **⚠️ Watch for:** some chat tools won't accept a `.db`/`.sqlite` upload at all. If yours refuses, that's a useful finding — try another tool, or ask it to write a script you run locally.
 
-**Starter prompt** (paste the table summary so the model knows the schema):
+**Starter prompt** (including the table summary so the model knows the schema):
 ```
 I will upload a sqlite database file that contains information about a digital media
 store. I want you to create a figure that compares the percentage of tracks sold to
@@ -116,11 +122,11 @@ The database contains 11 tables, as follows:
 ```
 
 
-## 4. France map — `communes.geojson` + `data_on_french_states.csv` — choropleth
+## 4. France map — `communes.geojson` + `data_on_french_states.csv` — map data
 
 **What it is:** two files that must be joined — a GeoJSON with commune geometry and a CSV with the number of restaurants per location.
 
-**The figure:** a choropleth map of the **number of restaurants in Southern France**.
+**Suggested figure:** a choropleth map of the **number of restaurants in Southern France**.
 
 **Join key:** match the `code` column in the GeoJSON to the `depcom` column in the CSV. The value to map is `nb_equip` (number of restaurants).
 
@@ -149,7 +155,7 @@ PDF format that I can download and include in my research paper.
 **Starter prompt (URL version — if the GeoJSON is too big to upload):**
 ```
 I will upload a csv data file and I want you to access a geojson file at:
-https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/communes.geojson
+https://raw.githubusercontent.com/nuitrcs/AI-for-data-visualization-workshop/refs/heads/main/data/communes.geojson
 The geojson file has location information and the csv file has numerical information.
 To connect them, match the "code" column from the geojson to the "depcom" column in
 the csv file. I am interested in the number of restaurants, in the "nb_equip" column
@@ -158,15 +164,15 @@ map, in a PDF format I can download and include in my research paper.
 ```
 
 
-## 5. `density.vtk` — 3D volume rendering
+## 5. `density.vtk` — 3D volume data
 
 **What it is:** a 3D grid of density values from an astrophysics simulation snapshot (a **128 × 128 × 128** grid, ~8 MB). The clean way to render this in Python is the `pyvista` library (~5–7 lines of code).
 
-**The figure:** a 3D volume rendering where color and opacity are driven by the density value in each cell.
+**Suggested figure:** a 3D volume rendering where color and opacity are driven by the density value in each cell.
 
-**Source:** provided in this folder (originally used in ParaView workshops).
+**Source:** Originally created by a Northwestern IT colleague from a (simplified) cosmological simulation.
 
-**⚠️ Watch for:** this is the **most ambitious** task and the easiest to get subtly wrong. Several tools can't render 3D at all and will instead hand you a script; some hand-roll their own ray tracing instead of using `pyvista`, producing long code that's hard to verify. Treat the output skeptically and check it carefully.
+**⚠️ Watch for:** this is the **most ambitious** task and the easiest to get subtly wrong. There is a Python library for this task called `pyvista`, but LLMs may not know about it (without being told inm the prompt). Several LLMs can't render 3D at all and will instead hand you a script; some hand-roll their own ray tracing producing long code that's hard to verify. Treat the output skeptically and check it carefully.
 
 **Starter prompt:**
 ```
